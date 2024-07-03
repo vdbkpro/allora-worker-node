@@ -34,10 +34,6 @@ if [[ ! "$response" =~ ^[Yy]$ ]]; then
     exit 1
 fi
 
-echo -e "${BOLD}${DARK_YELLOW}Removing Allora files if it is existed in VPS...${RESET}"
-execute_with_prompt "rm -rf allora.sh allora-chain/ basic-coin-prediction-node/"
-echo
-
 echo -e "${BOLD}${DARK_YELLOW}Updating system dependencies...${RESET}"
 execute_with_prompt "sudo apt update -y && sudo apt upgrade -y"
 echo
