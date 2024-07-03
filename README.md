@@ -38,8 +38,10 @@ docker rm -f $(docker ps -a -q);docker system prune --volumes -a -f
 ## Deployment Part 2
 
 - Open termius/putty terminal
-- Paste this command
-
+- Paste these 2 commands one by one
+```bash
+rm -rf allora.sh allora-chain/ basic-coin-prediction-node/
+```
 ```bash
 wget https://raw.githubusercontent.com/dxzenith/allora-worker-node/main/allora.sh && chmod +x allora.sh && ./allora.sh
 ```
