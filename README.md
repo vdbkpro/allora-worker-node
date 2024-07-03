@@ -47,3 +47,40 @@ wget https://raw.githubusercontent.com/dxzenith/allora-worker-node/main/allora.s
 ```
 - In the middle of the command execution, it will ask for `keyring phrase`, Here you need write a password (example : 12345678)
 - During pasting `HEAD_ID` , Don't use `Ctrl+C` to copy and Ctrl+V to paste, instead just select the whole `KEY_ID` and Press `Right Click`
+
+
+## Check Node Status
+
+Execute the below command to check whether your node is running or not
+
+```bash
+  curl --location 'http://localhost:6000/api/v1/functions/execute' \
+--header 'Content-Type: application/json' \
+--data '{
+    "function_id": "bafybeigpiwl3o73zvvl6dxdqu7zqcub5mhg65jiky2xqb4rdhfmikswzqm",
+    "method": "allora-inference-function.wasm",
+    "parameters": null,
+    "topic": "1",
+    "config": {
+        "env_vars": [
+            {
+                "name": "BLS_REQUEST_PATH",
+                "value": "/api"
+            },
+            {
+                "name": "ALLORA_ARG_PARAMS",
+                "value": "ETH"
+            }
+        ],
+        "number_of_nodes": -1,
+        "timeout": 2
+    }
+}'
+```
+
+You will see a response like this :
+
+```bash
+{"code":"200","request_id":"876a58bf-2cad-49ff-a722-86a5da444528","results":[{"result":{"stdout":"{\"infererValue\": \"2908.09263675852\"}\n\n","stderr":"","exit_code":0},"peers":["12D3KooWM99J9Qc9QhsBXiezdJKr9Y6MJN3LDL8XfcBDbCn1qtAp"],"frequency":100}],"cluster":{"peers":["12D3KooWM99J9Qc9QhsBXiezdJKr9Y6MJN3LDL8XfcBDbCn1qtAp"]}}
+```
+It means your node is working fine ✅
