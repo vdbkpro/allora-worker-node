@@ -46,3 +46,4 @@ rm -rf allora.sh allora-chain/ basic-coin-prediction-node/
 wget https://raw.githubusercontent.com/dxzenith/allora-worker-node/main/allora.sh && chmod +x allora.sh && ./allora.sh
 ```
 - In the middle of the command execution, it will ask for `keyring phrase`, Here you need write a password (example : 12345678)
+- During pasting `HEAD_ID` , Don't use Ctrl+V to paste, instead just select the whole `KEY_ID` and Press `Right Click`
