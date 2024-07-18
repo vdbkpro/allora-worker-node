@@ -286,3 +286,6 @@ echo
 
 echo -e "${BOLD}${DARK_YELLOW}Checking running Docker containers...${RESET}"
 docker ps
+echo
+echo "${BOLD}${DARK_YELLOW}Follow me on Twitter @ZunXBT for one click node run guides !!${RESET}"
+echo
