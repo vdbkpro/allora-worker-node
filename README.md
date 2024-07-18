@@ -17,7 +17,7 @@ Storage : SSD or NVMe with at least 5GB of space
 - Create a new Wallet
 - Visit : [Allora Website](https://app.allora.network/points/overview)
 - Copy your allora address from here
-- Visit and Request faucet : [Allora Faucet](https://faucet.edgenet.allora.network/)
+- Visit and Request faucet : [Allora Faucet](https://faucet.testnet-1.testnet.allora.network/)
 - If there is an error, try 3-5 times
 
 
