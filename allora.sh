@@ -55,7 +55,7 @@ execute_with_prompt 'sudo apt-get update'
 echo
 execute_with_prompt 'sudo apt-get install docker-ce docker-ce-cli containerd.io -y'
 echo
-
+sleep 2
 echo -e "${BOLD}${DARK_YELLOW}Checking docker version...${RESET}"
 execute_with_prompt 'docker version'
 echo
@@ -93,7 +93,7 @@ execute_with_prompt 'echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> 
 echo
 execute_with_prompt 'source $HOME/.bash_profile'
 echo
-
+sleep 2
 echo -e "${BOLD}${DARK_YELLOW}Checking go version...${RESET}"
 execute_with_prompt 'go version'
 echo
@@ -146,9 +146,6 @@ read -p "Enter HEAD_ID: " HEAD_ID
 echo
 
 read -p "Enter WALLET_SEED_PHRASE: " WALLET_SEED_PHRASE
-echo
-
-read -p "Enter TOPIC_ID: " TOPIC_ID
 echo
 
 echo -e "${BOLD}${UNDERLINE}${DARK_YELLOW}Generating docker-compose.yml file...${RESET}"
@@ -218,10 +215,11 @@ services:
           --runtime-path=/app/runtime --runtime-cli=bls-runtime --workspace=/data/workspace \
           --private-key=/data/keys/priv.bin --log-level=debug --port=9011 \
           --boot-nodes=/ip4/172.22.0.100/tcp/9010/p2p/$HEAD_ID \
+          --topic=allora-topic-1-worker \
           --allora-chain-key-name=testkey \
           --allora-chain-restore-mnemonic='$WALLET_SEED_PHRASE' \
           --allora-node-rpc-address=https://allora-rpc.testnet-1.testnet.allora.network \
-          --topic=allora-topic-$TOPIC_ID-worker --allora-chain-worker-mode=worker
+          --allora-chain-topic-id=1
     volumes:
       - ./worker-data:/data
     working_dir: /data
@@ -283,9 +281,13 @@ echo -e "${BOLD}${UNDERLINE}${DARK_YELLOW}Building and starting Docker container
 docker-compose build
 docker-compose up -d
 echo
-
+sleep 2
 echo -e "${BOLD}${DARK_YELLOW}Checking running Docker containers...${RESET}"
 docker ps
 echo
-echo "${BOLD}${DARK_YELLOW}Follow me on Twitter @ZunXBT for one click node run guides !!${RESET}"
+read -p "Enter basic-coin-prediction-node-worker CONTAINER_ID: " CONTAINER_ID
+echo
+execute_with_prompt 'docker logs -f CONTAINER_ID'
+echo
+echo "${BOLD}${DARK_YELLOW}Follow me on Twitter @ZunXBT for more one click node run guides !!${RESET}"
 echo
