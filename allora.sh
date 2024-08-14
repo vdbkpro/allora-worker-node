@@ -4,7 +4,8 @@ BOLD="\033[1m"
 UNDERLINE="\033[4m"
 DARK_YELLOW="\033[0;33m"
 CYAN="\033[0;36m"
-RESET="\033[0;32m"
+GREEN="\033[0;32m"
+RESET="\033[0m"
 
 execute_with_prompt() {
     echo -e "${BOLD}Executing: $1${RESET}"
@@ -75,7 +76,7 @@ fi
 
 execute_with_prompt 'sudo usermod -aG docker $USER'
 echo
-echo "Request faucet to your wallet from this link: https://faucet.testnet-1.testnet.allora.network/"
+echo -e "${GREEN}${BOLD}Request faucet to your wallet from this link:${RESET} https://faucet.testnet-1.testnet.allora.network/"
 echo
 
 echo -e "${BOLD}${UNDERLINE}${DARK_YELLOW}Installing worker node...${RESET}"
@@ -94,9 +95,9 @@ cat <<EOF > config.json
     "gas": "1000000",
     "gasAdjustment": 1.0,
     "nodeRpc": "https://sentries-rpc.testnet-1.testnet.allora.network/",
-    "maxRetries": 5,
-    "delay": 5,
-    "submitTx": false
+    "maxRetries": 1,
+    "delay": 1,
+    "submitTx": true
   },
   "worker": [
     {
@@ -104,7 +105,7 @@ cat <<EOF > config.json
       "inferenceEntrypointName": "api-worker-reputer",
       "loopSeconds": 5,
       "parameters": {
-        "InferenceEndpoint": "http://inference:8000/inference/{Token}",
+        "InferenceEndpoint": "http://localhost:8000/inference/{Token}",
         "Token": "ETH"
       }
     },
@@ -113,7 +114,7 @@ cat <<EOF > config.json
       "inferenceEntrypointName": "api-worker-reputer",
       "loopSeconds": 5,
       "parameters": {
-        "InferenceEndpoint": "http://inference:8000/inference/{Token}",
+        "InferenceEndpoint": "http://localhost:8000/inference/{Token}",
         "Token": "ETH"
       }
     }
@@ -136,29 +137,5 @@ sleep 2
 echo -e "${BOLD}${DARK_YELLOW}Checking running Docker containers...${RESET}"
 docker ps
 echo
-
-echo -e "${BOLD}${UNDERLINE}${DARK_YELLOW}Monitoring Docker logs...${RESET}"
-
-# Add a retry mechanism to handle potential node issues
-MAX_RETRIES=5
-RETRY_DELAY=10
-RETRIES=0
-
-while [[ $RETRIES -lt $MAX_RETRIES ]]; do
-    docker logs -f worker | grep -q "error unmarshalling"
-    if [[ $? -eq 0 ]]; then
-        echo -e "${BOLD}${DARK_YELLOW}Error detected. Retrying...${RESET}"
-        RETRIES=$((RETRIES + 1))
-        sleep $RETRY_DELAY
-    else
-        echo -e "${BOLD}${CYAN}No unmarshalling errors detected. Continuing...${RESET}"
-        break
-    fi
-done
-
-if [[ $RETRIES -eq $MAX_RETRIES ]]; then
-    echo -e "${BOLD}${DARK_YELLOW}Maximum retries reached. Please check the RPC node or network status.${RESET}"
-    exit 1
-fi
-
-docker logs -f worker
+execute_with_prompt 'docker logs -f worker'
+echo
