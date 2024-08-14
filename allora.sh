@@ -94,8 +94,8 @@ cat <<EOF > config.json
     "gas": "1000000",
     "gasAdjustment": 1.0,
     "nodeRpc": "https://sentries-rpc.testnet-1.testnet.allora.network/",
-    "maxRetries": 1,
-    "delay": 1,
+    "maxRetries": 5,
+    "delay": 5,
     "submitTx": false
   },
   "worker": [
@@ -109,7 +109,7 @@ cat <<EOF > config.json
       }
     },
     {
-      "topicId": 2,
+      "topicId": 1,
       "inferenceEntrypointName": "api-worker-reputer",
       "loopSeconds": 5,
       "parameters": {
@@ -136,5 +136,29 @@ sleep 2
 echo -e "${BOLD}${DARK_YELLOW}Checking running Docker containers...${RESET}"
 docker ps
 echo
-execute_with_prompt 'docker logs -f worker'
-echo
+
+echo -e "${BOLD}${UNDERLINE}${DARK_YELLOW}Monitoring Docker logs...${RESET}"
+
+# Add a retry mechanism to handle potential node issues
+MAX_RETRIES=5
+RETRY_DELAY=10
+RETRIES=0
+
+while [[ $RETRIES -lt $MAX_RETRIES ]]; do
+    docker logs -f worker | grep -q "error unmarshalling"
+    if [[ $? -eq 0 ]]; then
+        echo -e "${BOLD}${DARK_YELLOW}Error detected. Retrying...${RESET}"
+        RETRIES=$((RETRIES + 1))
+        sleep $RETRY_DELAY
+    else
+        echo -e "${BOLD}${CYAN}No unmarshalling errors detected. Continuing...${RESET}"
+        break
+    fi
+done
+
+if [[ $RETRIES -eq $MAX_RETRIES ]]; then
+    echo -e "${BOLD}${DARK_YELLOW}Maximum retries reached. Please check the RPC node or network status.${RESET}"
+    exit 1
+fi
+
+docker logs -f worker
