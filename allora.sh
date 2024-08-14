@@ -131,6 +131,7 @@ sleep 2
 
 echo
 echo -e "${BOLD}${UNDERLINE}${DARK_YELLOW}Building and starting Docker containers...${RESET}"
+docker compose build
 docker-compose up -d
 echo
 sleep 2
