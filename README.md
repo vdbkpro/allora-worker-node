@@ -30,3 +30,8 @@ rm -rf allora.sh allora-chain/ basic-coin-prediction-node/
 ```bash
 wget https://raw.githubusercontent.com/dxzenith/allora-worker-node/main/allora.sh && chmod +x allora.sh && ./allora.sh
 ```
+- Atlast you will see some logs like this :
+
+![image](https://github.com/user-attachments/assets/d3000af7-663a-44c6-8282-f408d9185891)
+
+- It means your node is running
