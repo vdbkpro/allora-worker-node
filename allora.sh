@@ -81,11 +81,10 @@ echo
 echo -e "${BOLD}${UNDERLINE}${DARK_YELLOW}Installing worker node...${RESET}"
 git clone https://github.com/allora-network/basic-coin-prediction-node
 cd basic-coin-prediction-node
-
+echo
 read -p "Enter WALLET_SEED_PHRASE: " WALLET_SEED_PHRASE
 echo
-
-echo -e "${BOLD}${UNDERLINE}${DARK_YELLOW}Generating docker-compose.yml file...${RESET}"
+echo -e "${BOLD}${UNDERLINE}${DARK_YELLOW}Generating config.json file...${RESET}"
 cat <<EOF > config.json
 {
   "wallet": {
@@ -125,15 +124,12 @@ EOF
 echo -e "${BOLD}${DARK_YELLOW}config.json file generated successfully!${RESET}"
 echo
 mkdir worker-data
-echo
-echo -e "${BOLD}${DARK_YELLOW}Giving permissions...${RESET}"
-sudo chmod -R 777 worker-data
-echo
 chmod +x init.config
 sleep 2
 ./init.config
+
+echo
 echo -e "${BOLD}${UNDERLINE}${DARK_YELLOW}Building and starting Docker containers...${RESET}"
-docker-compose build
 docker-compose up -d
 echo
 sleep 2
@@ -141,6 +137,4 @@ echo -e "${BOLD}${DARK_YELLOW}Checking running Docker containers...${RESET}"
 docker ps
 echo
 execute_with_prompt 'docker logs -f worker'
-echo
-echo "${BOLD}${DARK_YELLOW}Follow me on Twitter @ZunXBT for more one click node run guides !!${RESET}"
 echo
