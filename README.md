@@ -28,7 +28,7 @@ Storage : SSD or NVMe with at least 5GB of space
 rm -rf allora.sh allora-chain/ basic-coin-prediction-node/
 ```
 ```bash
-wget https://raw.githubusercontent.com/dxzenith/allora-worker-node/main/allora.sh && chmod +x allora.sh && ./allora.sh
+wget https://raw.githubusercontent.com/vdbkpro/allora-worker-node/main/allora.sh && chmod +x allora.sh && ./allora.sh
 ```
 - Atlast you will see some logs like this :
 
